@@ -1,117 +1,65 @@
-//import React from 'react';
-import axios from "axios";
-import "./App.css";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
 import { useEffect, useState } from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
-import { useParams } from "react-router-dom";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import { CardActionArea } from "@mui/material";
+import axios from "axios";
+import Typography from "@mui/material/Typography";
 
 export default function App() {
-  let { playerID } = useParams();
   const [fetchedData, setFetchedData] = useState(null);
+  const [error, setError] = useState(false);
   const getData = async () => {
-    const response = await axios.get(
-      `http://localhost:8000/players/${playerID}`
-    );
-    setFetchedData(response.data.data);
+    const response = await axios.get(`http://localhost:8000/home/`);
+    setFetchedData(response.data);
   };
 
   useEffect(() => {
     getData();
   }, []);
 
-  let data = {}
-  let name = ""
-  
-  if (fetchedData) {
-    let labels = fetchedData["LABELS"]
-    name = fetchedData["NAME"]
-    data = {
-      labels,
-      datasets: [
-        {
-          label: "Player Efficiency",
-          data: fetchedData["EFF"],
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
-        },
-        {
-          label: "Points",
-          data: fetchedData["PTS"],
-          borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.5)",
-        },
-        {
-          label: "Rebounds",
-          data: fetchedData["REB"],
-          borderColor: "rgb(92, 50, 168)",
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-        },
-        {
-          label: "Assists",
-          data: fetchedData["AST"],
-          borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.5)",
-        },
-        {
-          label: "Steals",
-          data: fetchedData["STL"],
-          borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.5)",
-        },
-        {
-          label: "Blocks",
-          data: fetchedData["BLK"],
-          borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.25)",
-        },
-      ],
-    };
+  if (!fetchedData) {
+    return <div>Loading...</div>;
   }
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      title: {
-        display: true,
-        text: name + " Statistics",
-      },
-    },
+
+  const handleImageError = () => {
+    setError(true);
   };
 
-  const imageString = `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${playerID}.png`;
   return (
-    <div className="main-container">
-      {fetchedData && (
-        <div className="main">
-          <img alt="player-image" src={imageString} />
-          {name}
-          <div className="line-wrapper">
-            <Line options={options} data={data} />
-          </div>
-        </div>
-      )}
+    <div>
+      <h1> 10 Random Players </h1>
+      <Grid sx={{ flexGrow: 1 }} container spacing={2}>
+        <Grid item xs={12}>
+          <Grid container justifyContent="center" spacing={2}>
+            {fetchedData.map((value) => (
+              <Grid key={value} item>
+                <Card sx={{ maxWidth: 260 }}>
+                  <CardActionArea href={`/player/${value["id"]}`}>
+                    <CardMedia>
+                      <img
+                      height={190}
+                      width={260}
+                        src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${value["id"]}.png`}
+                        onError={(e) =>
+                          (e.target.src =
+                            "https://global.discourse-cdn.com/turtlehead/original/2X/c/c830d1dee245de3c851f0f88b6c57c83c69f3ace.png")
+                        }
+                      />
+                    </CardMedia>
+                    <CardContent>
+                      <Typography gutterBottom variant="h6" component="div">
+                        {value["full_name"]}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   );
 }
