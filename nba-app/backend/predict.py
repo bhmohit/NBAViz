@@ -29,7 +29,7 @@ class Predict:
           fit = auto_arima(df[stats_to_predict[i]], trace=True, suppress_warnings=True)
           model = ARIMA(train[stats_to_predict[i]], order=fit.order)
           model = model.fit()
-          index_future_dates = pd.date_range(start="2023", end="2023")
+          index_future_dates = pd.date_range(start=str(int(career.get_data_frames()[0]["SEASON_ID"][len(career.get_data_frames()[0]) - 1][:4])+1), end=str(int(career.get_data_frames()[0]["SEASON_ID"][len(career.get_data_frames()[0]) - 1][:4])+1))
           pred = model.predict(start=len(train), end=len(train), typ='levels')
           pred.index = index_future_dates
           output_dict[stats_to_predict[i]] = int(pred.iloc[-1])   

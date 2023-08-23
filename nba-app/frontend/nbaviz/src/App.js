@@ -1,31 +1,13 @@
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { useEffect, useState } from "react";
+import {useLoaderData} from "react-router-dom"
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
-import axios from "axios";
 import Typography from "@mui/material/Typography";
 
 export default function App() {
-  const [fetchedData, setFetchedData] = useState(null);
-  const [error, setError] = useState(false);
-  const getData = async () => {
-    const response = await axios.get(`http://localhost:8000/home/`);
-    setFetchedData(response.data);
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  if (!fetchedData) {
-    return <div>Loading...</div>;
-  }
-
-  const handleImageError = () => {
-    setError(true);
-  };
+  const fetchedData = useLoaderData();
 
   return (
     <div>
