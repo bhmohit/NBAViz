@@ -13,6 +13,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { useParams } from "react-router-dom";
+import Fact from "./Fact";
 
 ChartJS.register(
   CategoryScale,
@@ -25,16 +26,15 @@ ChartJS.register(
 );
 
 export default function Player() {
-  let { playerID } = useParams();
   const [fetchedData, setFetchedData] = useState(null);
-  const getData = async () => {
-    const response = await axios.get(
-      `http://localhost:8000/players/${playerID}`
-    );
-    setFetchedData(response.data.data);
-  };
-
+  let { playerID } = useParams();
   useEffect(() => {
+    const getData = async () => {
+      const response = await axios.get(
+        `http://localhost:8000/players/${playerID}`
+      );
+      setFetchedData(response.data.data);
+    };
     getData();
   }, []);
 
@@ -99,7 +99,15 @@ export default function Player() {
     },
   };
   if (!fetchedData) {
-    return <div>Loading... (This might take a while)</div>;
+    return (
+      <div>
+        <p>
+          Loading... (This might take a while) Heres a random fact in the mean
+          time
+        </p>
+        <Fact />
+      </div>
+    );
   }
   return (
     <div className="main-container">
@@ -113,6 +121,7 @@ export default function Player() {
               (e.target.src =
                 "https://global.discourse-cdn.com/turtlehead/original/2X/c/c830d1dee245de3c851f0f88b6c57c83c69f3ace.png")
             }
+            alt="Player"
           />
           {name}
           <div className="line-wrapper">
