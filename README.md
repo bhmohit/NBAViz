@@ -5,6 +5,8 @@
 
 - Making the front end pretty.
 - Reducing page load time for data that has not been cached.
+- Deploying the app.
+- Adding a search functionality
 
 ## How To Setup:
 - Step 1: Install Redis
