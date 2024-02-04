@@ -1,6 +1,6 @@
 import axios from "axios";
 import "./Player.css";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState} from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,13 +27,12 @@ ChartJS.register(
 
 export default function Player() {
   const [fetchedData, setFetchedData] = useState(null);
-  let { playerID } = useParams();
+  const { playerID } = useParams();
   const [throwError, setThrowError] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios
-        .get(`http://localhost:8000/players/${playerID}`)
+      await axios.get(`http://localhost:8000/players/${playerID}`)
         .then(function (response) {
           setFetchedData(response.data.data);
         })
@@ -43,7 +42,7 @@ export default function Player() {
         });
     };
     getData();
-  }, []);
+  }, [playerID]);
 
   let data = {};
   let name = "";

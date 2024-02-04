@@ -2,15 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import Player from "./Player";
-import App from "./App";
-import { createBrowserRouter, RouterProvider, defer } from "react-router-dom";
+import List from "./List";
+import Home from "./Home";
+import { createBrowserRouter, RouterProvider} from "react-router-dom";
 import Alert from "@mui/material/Alert";
-import axios from "axios";
-
-const getDataForApp = async () => {
-  const response = await axios.get(`http://localhost:8000/home/`);
-  return response.data;
-};
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter([
@@ -23,8 +18,14 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <App />,
-    loader: getDataForApp,
+    element: <Home/>,
+    errorElement: (
+      <Alert severity="error">Error, please try creating a GitHub Issue to describe the error</Alert>
+    ),
+  },
+  {
+    path: "/search/:playerName",
+    element: <List url={`search/`} hasParams={true} title={"Results for"}/>,
     errorElement: (
       <Alert severity="error">Error, please try creating a GitHub Issue to describe the error</Alert>
     ),

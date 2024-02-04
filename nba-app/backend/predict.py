@@ -1,9 +1,6 @@
 from nba_api.stats.endpoints import playercareerstats
-from nba_api.stats.static import players
 import pandas as pd
-import numpy as np
 from pmdarima import auto_arima
-import statsmodels.api as sm
 from statsmodels.tsa.arima.model import ARIMA
 
 
