@@ -5,13 +5,14 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import './App.css'
 
 export default function App() {
   const fetchedData = useLoaderData();
 
   return (
     <div>
-      <h1> 10 Random Players </h1>
+      <h2 className="title"> 10 Random Players (Refresh for More) </h2>
       <Grid sx={{ flexGrow: 1 }} container spacing={2}>
         <Grid item xs={12}>
           <Grid container justifyContent="center" spacing={2}>

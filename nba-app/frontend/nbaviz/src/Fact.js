@@ -16,10 +16,8 @@ export default function Fact() {
         .then((responses) => setFact(responses.data));
     };
     getData();
-    return () => {
-      controller.abort();
-    };
   }, []);
+  
   return (
     fact && (
       <div>

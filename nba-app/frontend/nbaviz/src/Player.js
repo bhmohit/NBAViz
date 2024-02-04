@@ -1,6 +1,6 @@
 import axios from "axios";
 import "./Player.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -28,12 +28,19 @@ ChartJS.register(
 export default function Player() {
   const [fetchedData, setFetchedData] = useState(null);
   let { playerID } = useParams();
+  const [throwError, setThrowError] = useState(false);
+
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get(
-        `http://localhost:8000/players/${playerID}`
-      );
-      setFetchedData(response.data.data);
+      const response = await axios
+        .get(`http://localhost:8000/players/${playerID}`)
+        .then(function (response) {
+          setFetchedData(response.data.data);
+        })
+        .catch(function (error) {
+          setThrowError(true);
+          if (error.response) console.log(error);
+        });
     };
     getData();
   }, []);
@@ -50,38 +57,38 @@ export default function Player() {
         {
           label: "Player Efficiency",
           data: fetchedData["EFF"],
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
+          borderColor: "rgb(255, 99, 71)",
+          backgroundColor: "rgba(255, 99, 71, 0.5)",
         },
         {
           label: "Points",
           data: fetchedData["PTS"],
-          borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.5)",
+          borderColor: "rgb(0, 128, 0)",
+          backgroundColor: "rgba(0, 128, 0, 0.5)",
         },
         {
           label: "Rebounds",
           data: fetchedData["REB"],
-          borderColor: "rgb(92, 50, 168)",
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          borderColor: "rgb(70, 130, 180)",
+          backgroundColor: "rgba(70, 130, 180, 0.5)",
         },
         {
           label: "Assists",
           data: fetchedData["AST"],
-          borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.5)",
+          borderColor: "rgb(255, 165, 0)",
+          backgroundColor: "rgba(255, 165, 0, 0.5)",
         },
         {
           label: "Steals",
           data: fetchedData["STL"],
-          borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.5)",
+          borderColor: "rgb(128, 0, 128)",
+          backgroundColor: "rgba(128, 0, 128, 0.5)",
         },
         {
           label: "Blocks",
           data: fetchedData["BLK"],
-          borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.25)",
+          borderColor: "rgb(0, 0, 139)",
+          backgroundColor: "rgba(0, 0, 139, 0.5)",
         },
       ],
     };
@@ -98,17 +105,22 @@ export default function Player() {
       },
     },
   };
+
   if (!fetchedData) {
+    if (throwError) {
+      return <h1>Insufficient data has been recorded on this player</h1>;
+    }
     return (
       <div>
         <p>
           Loading... (This might take a while) Heres a random fact in the mean
-          time
+          time:
         </p>
         <Fact />
       </div>
     );
   }
+
   return (
     <div className="main-container">
       {fetchedData && (
@@ -123,7 +135,6 @@ export default function Player() {
             }
             alt="Player"
           />
-          {name}
           <div className="line-wrapper">
             <Line options={options} data={data} />
           </div>

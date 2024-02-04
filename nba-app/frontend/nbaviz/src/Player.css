@@ -1,7 +1,11 @@
 .main-container{
     display: grid;
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 80% 20%;
     grid-template-rows: auto;
 }
 
-
+img {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}

@@ -18,7 +18,7 @@ def player_list(request, id):
 
 
 def home_page_data(request):
-    all_active = players.get_players()
+    all_active = players.get_active_players()
     ret_list = []
     for i in range(10):
         player = all_active[random.randint(0,len(all_active)-1)]
