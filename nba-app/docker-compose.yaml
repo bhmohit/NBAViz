@@ -1,0 +1,17 @@
+services:
+  django-be:
+    build: .
+    container_name: djangob
+    command: python3 manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    environment:
+      - debug=1
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1
+    depends_on:
+      - redis
+
+  redis:
+    image: "redis"
+    ports:
+      - 6379    

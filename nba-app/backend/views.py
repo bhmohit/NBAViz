@@ -8,13 +8,26 @@ import random
 
 
 def player_list(request, id):
-    r = redis.Redis(host='localhost', port=6379, decode_responses=True)
-    if r.exists(id):
-        return JsonResponse(pickle.loads(str.encode(r.get(id))), safe=False)
-    else:
-        statsDict = get_data(id)
-        r.set(id, pickle.dumps(statsDict, protocol=0))
-        return JsonResponse(statsDict, safe=False)
+    try:
+        r = redis.Redis(host="redis", port=6379)
+
+        if r.exists(id):
+            statsDict = pickle.loads(r.get(id))
+            return JsonResponse(statsDict, safe=False)
+        else:
+            statsDict = get_data(id)
+            r.set(id, pickle.dumps(statsDict, protocol=0))
+            return JsonResponse(statsDict, safe=False)
+
+    except redis.ConnectionError as e:
+        # Handle Redis connection error
+        return JsonResponse({"error": "Failed to connect to Redis"}, status=500)
+
+    except Exception as e:
+        # Handle other exceptions
+        return JsonResponse({"error": str(e)}, status=500)
+
+    return HttpResponseNotFound()
 
 def home_page_data(request):
     all_active = players.get_active_players()
