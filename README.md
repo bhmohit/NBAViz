@@ -1,7 +1,5 @@
 # NBAViz
 
-## Note: The app currently includes node_modules because installing node_modules from a docker container takes long.
-
 ## Currently Working On:
 
 - Making the front end pretty.
