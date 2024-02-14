@@ -7,5 +7,5 @@
 
 ## How To Setup:
 - Step 1: Setup the docker image and run the container
-  -  run `docker compose build` and then `docker compose up` OR only run `docker compose up -d` (this does both steps in one command)
+  -  run `docker compose up`
 - Step 2: Goto localhost:5173
