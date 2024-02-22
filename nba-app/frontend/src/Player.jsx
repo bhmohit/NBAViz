@@ -32,7 +32,7 @@ export default function Player() {
 
   useEffect(() => {
     const getData = async () => {
-      await axios.get(`http://localhost:8000/players/${playerID}/`)
+      await axios.get(`http://localhost:80/players/${playerID}/`)
         .then(function (response) {
           setFetchedData(response.data.data);
         })

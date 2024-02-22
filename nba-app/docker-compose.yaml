@@ -3,12 +3,12 @@ services:
     build: .
     container_name: backend
     command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000
-    ports:
-      - "8000:8000"
     environment:
       - debug=0
     depends_on:
       - redis
+    volumes:
+      - static:/static  
 
   redis:
     image: "redis"
@@ -23,3 +23,15 @@ services:
       - backend
     ports:
       - "5173:5173"
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/static
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  static:
