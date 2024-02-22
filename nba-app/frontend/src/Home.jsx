@@ -33,6 +33,8 @@ export default function Home() {
       <List
         url={`home/`}
         hasParams={false}
+        loadFact={false}
+        noDataMessage="Players could not be retrieved"
         title="10 Random Players (Refresh for More)"
       />
     </div>

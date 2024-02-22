@@ -2,6 +2,8 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
+RUN pip install --upgrade pip
+
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 

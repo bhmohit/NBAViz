@@ -7,9 +7,8 @@ import Card from "@mui/material/Card";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import './List.css'
-import Fact from "./Fact"
-
+import "./List.css";
+import Fact from "./Fact";
 
 export default function List(props) {
   const [fetchedData, setFetchedData] = useState(null);
@@ -25,7 +24,8 @@ export default function List(props) {
 
   useEffect(() => {
     const getData = async () => {
-      await axios.get(`http://localhost:8000/${url}`)
+      await axios
+        .get(`http://localhost:8000/${url}`)
         .then(function (response) {
           setFetchedData(response.data);
         })
@@ -39,14 +39,18 @@ export default function List(props) {
 
   if (!fetchedData) {
     if (throwError) {
-      return <h1>Insufficient data has been recorded on this player</h1>;
+      return <h1>{props.noDataMessage}</h1>;
     }
     return (
       <div>
-        <p>
-          Loading... Heres a random fact in the mean time:
-        </p>
-        <Fact />
+        {props.loadFact ? (
+          <div>
+            <p>Loading... Heres a random fact in the mean time:</p>
+            <Fact />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
   }

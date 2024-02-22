@@ -1,13 +1,12 @@
 services:
-  django-be:
+  backend:
     build: .
-    container_name: djangob
-    command: python3 manage.py runserver localhost:8000
+    container_name: backend
+    command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000
     ports:
       - "8000:8000"
     environment:
-      - debug=1
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1
+      - debug=0
     depends_on:
       - redis
 
@@ -21,6 +20,6 @@ services:
     container_name: fe
     command: npm run dev
     depends_on:
-      - django-be
+      - backend
     ports:
       - "5173:5173"
