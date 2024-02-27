@@ -1,5 +1,5 @@
 import axios from "axios";
-import "./Player.css";
+import "./Data.css";
 import { useEffect, useState} from "react";
 import {
   Chart as ChartJS,
@@ -25,14 +25,18 @@ ChartJS.register(
   Legend
 );
 
-export default function Player() {
+export default function Data(props) {
   const [fetchedData, setFetchedData] = useState(null);
-  const { playerID } = useParams();
+  const { id } = useParams();
   const [throwError, setThrowError] = useState(false);
+  const type = props.type;
+  const imageUrlPre = props.type === "team" ? "https://cdn.nba.com/logos/nba/" : "https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/"
+  const imageUrlPost = props.type === "team" ? "/global/L/logo.svg" : ".png"
+  
 
   useEffect(() => {
     const getData = async () => {
-      await axios.get(`http://localhost:8000/players/${playerID}/`)
+      await axios.get(`http://localhost:8000/data/${type}/${id}/`)
         .then(function (response) {
           setFetchedData(response.data.data);
         })
@@ -42,7 +46,7 @@ export default function Player() {
         });
     };
     getData();
-  }, [playerID]);
+  }, [id]);
 
   let data = {};
   let name = "";
@@ -50,6 +54,7 @@ export default function Player() {
   if (fetchedData) {
     let labels = fetchedData["LABELS"];
     name = fetchedData["NAME"];
+    console.log(fetchedData)
     data = {
       labels,
       datasets: [
@@ -127,7 +132,7 @@ export default function Player() {
           <img
             height={190}
             width={260}
-            src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${playerID}.png`}
+            src={imageUrlPre + id + imageUrlPost}
             onError={(e) =>
               (e.target.src =
                 "https://global.discourse-cdn.com/turtlehead/original/2X/c/c830d1dee245de3c851f0f88b6c57c83c69f3ace.png")

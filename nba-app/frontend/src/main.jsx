@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Player from "./Player";
+import Data from "./Data";
 import List from "./List";
 import Home from "./Home";
 import { createBrowserRouter, RouterProvider} from "react-router-dom";
@@ -9,8 +9,15 @@ import Alert from "@mui/material/Alert";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter([
   {
-    path: "/player/:playerID",
-    element: <Player />,
+    path: "/player/:id",
+    element: <Data type={"player"}/>,
+    errorElement: (
+      <Alert severity="error">Error, please try creating a GitHub Issue to describe the error</Alert>
+    ),
+  },
+  {
+    path: "/team/:id",
+    element: <Data type={"team"}/>,
     errorElement: (
       <Alert severity="error">Error, please try creating a GitHub Issue to describe the error</Alert>
     ),
@@ -24,7 +31,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/search/:playerName",
-    element: <List url={`search`} loadFact={true} noDataMessage="Could not find player" hasParams={true} title={"Results for"}/>,
+    element: <List url={`search`} type={"player"} loadFact={true} noDataMessage="Could not find player" hasParams={true} title={"Results for"}/>,
     errorElement: (
       <Alert severity="error">Error, please try creating a GitHub Issue to describe the error</Alert>
     ),

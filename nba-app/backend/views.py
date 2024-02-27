@@ -3,65 +3,41 @@ import pickle
 from .serializer import PlayerSerializer
 from django.http import JsonResponse
 from nba_api.stats.static import players, teams
-from .get_data import get_player_data, get_team_data
+from .get_data import get_data
 import random
 
 
-def player_list(request, id):
+def data_list(request, type, id):
+    if type != "team" and type != "player":
+        raise Exception
     try:
-        r = redis.Redis(host="redis", port=6379)
-
+        r = redis.Redis(host="localhost", port=6379)
         if r.exists(id):
             statsDict = pickle.loads(r.get(id))
             return JsonResponse(statsDict, safe=False)
         else:
-            statsDict = get_player_data(id)
+            statsDict = get_data(id, type)
             r.set(id, pickle.dumps(statsDict, protocol=0))
             return JsonResponse(statsDict, safe=False)
 
     except redis.ConnectionError as e:
         # Handle Redis connection error
-        return JsonResponse({"error": "Failed to connect to Redis"}, status=500)
+        statsDict = get_data(id, type)
+        return JsonResponse(statsDict, safe=False)
 
     except Exception as e:
         # Handle other exceptions
         return JsonResponse({"error": str(e)}, status=500)
 
-def team_list(request, id):
-    try:
-        r = redis.Redis(host="redis", port=6379)
-
-        if r.exists(id):
-            statsDict = pickle.loads(r.get(id))
-            return JsonResponse(statsDict, safe=False)
-        else:
-            statsDict = get_team_data(id)
-            r.set(id, pickle.dumps(statsDict, protocol=0))
-            return JsonResponse(statsDict, safe=False)
-
-    except redis.ConnectionError as e:
-        # Handle Redis connection error
-        return JsonResponse({"error": "Failed to connect to Redis"}, status=500)
-
-    except Exception as e:
-        # Handle other exceptions
-        return JsonResponse({"error": str(e)}, status=500)
-
-def home_page_player_data(request):
-    active_players = players.get_active_players()
+def home_page_data(request, type):
+    if type != 'team' and type != 'player':
+        return JsonResponse({"error": "eee"}, status=500)
+    data = (players.get_active_players(), teams.get_teams())[type == "team"]
+    size = (10, 5)[type == "team"]
     ret_list = []
-    for i in range(10):
-        player = active_players[random.randint(0,len(active_players)-1)]
-        obj = {"id": player['id'], "full_name": player['full_name']}
-        ret_list.append(obj)
-    return JsonResponse(ret_list, safe=False)
-
-def home_page_team_data(request):
-    active_teams = teams.get_teams()
-    ret_list = []
-    for i in range(5):
-        team = active_teams[random.randint(0, len(active_teams) - 1)]
-        obj = {"id": team['id'], "full_name": team['full_name']}
+    for i in range(size):
+        entity = data[random.randint(0,len(data)-1)]
+        obj = {"id": entity['id'], "full_name": entity['full_name']}
         ret_list.append(obj)
     return JsonResponse(ret_list, safe=False)
 

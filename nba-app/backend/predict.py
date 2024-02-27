@@ -1,19 +1,17 @@
-from nba_api.stats.endpoints import playercareerstats
 import pandas as pd
 from pmdarima import auto_arima
 from statsmodels.tsa.arima.model import ARIMA
 
 
 class Predict:
-    def __init__(self, id):
-        self.id = id
+    def __init__(self, df, year_type):
+        self.df = df
+        self.year_type = year_type
 
     def predict(self):
-        career = playercareerstats.PlayerCareerStats(player_id=self.id)
-        df = career.get_data_frames()[0]
-    
-        df_average = df.groupby('SEASON_ID')[['FG_PCT', 'FT_PCT']].mean().reset_index()
-        df = df.groupby('SEASON_ID').sum().reset_index()
+        df = self.df
+        df_average = df.groupby(self.year_type)[['FG_PCT', 'FT_PCT']].mean().reset_index()
+        df = df.groupby(self.year_type).sum().reset_index()
     
         replacement_mapping = dict(zip(df['FG_PCT'], df_average['FG_PCT']))
         df['FG_PCT'] = df['FG_PCT'].replace(replacement_mapping)
@@ -21,7 +19,7 @@ class Predict:
         replacement_mapping = dict(zip(df['FT_PCT'], df_average['FT_PCT']))
         df['FT_PCT'] = df['FT_PCT'].replace(replacement_mapping)
     
-        df.set_index("SEASON_ID", inplace=True)
+        df.set_index(self.year_type, inplace=True)
     
         train = df.iloc[:]
     
@@ -43,7 +41,7 @@ class Predict:
                 fit = auto_arima(column_data, trace=True, suppress_warnings=True)
                 model = ARIMA(train[stats_to_predict[i]], order=fit.order)
                 model = model.fit()
-                index_future_dates = pd.date_range(start=str(int(career.get_data_frames()[0]["SEASON_ID"][len(career.get_data_frames()[0]) - 1][:4])+1), end=str(int(career.get_data_frames()[0]["SEASON_ID"][len(career.get_data_frames()[0]) - 1][:4])+1))
+                index_future_dates = pd.date_range(start=str(int(self.df[self.year_type][len(self.df) - 1][:4])+1), end=str(int(self.df[self.year_type][len(self.df) - 1][:4])+1))
                 pred = model.predict(start=len(train), end=len(train), typ='levels')
                 pred.index = index_future_dates
                 output_dict[stats_to_predict[i]] = int(pred.iloc[-1])
