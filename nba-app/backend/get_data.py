@@ -1,13 +1,28 @@
-from nba_api.stats.endpoints import playercareerstats
-from nba_api.stats.static import players
+from nba_api.stats.endpoints import playercareerstats, teamyearbyyearstats
+from nba_api.stats.static import players, teams
 from .predict import Predict
 
 
-def get_data(id):
-    career = playercareerstats.PlayerCareerStats(player_id=id)
-    player_details = players.find_player_by_id(id)
-    finStats = career.get_normalized_dict()
-    finStats = finStats["SeasonTotalsRegularSeason"]
+def get_data(id, type):
+    settings = {}
+    if type == "team":
+        settings["data"] = teamyearbyyearstats.TeamYearByYearStats(team_id=id)
+        settings["name"] = teams.find_team_name_by_id(id)
+        settings["final_stats"] = settings["data"].get_normalized_dict()["TeamStats"]
+        settings["size"] = len(settings["final_stats"])-35
+        settings["year_type"] = "YEAR"
+    
+    elif type == "player":
+        settings["data"] = playercareerstats.PlayerCareerStats(player_id=id)
+        settings["name"] = players.find_player_by_id(id)
+        settings["final_stats"] = settings["data"].get_normalized_dict()["SeasonTotalsRegularSeason"]
+        settings["size"] = 0
+        settings["year_type"] = "SEASON_ID"
+            
+    data = settings["data"]
+    size = settings["size"]
+    finStats = settings["final_stats"]
+    
     labels = []
     pts = []
     rebs = []
@@ -15,17 +30,19 @@ def get_data(id):
     stls = []
     blks = []
     effs = []
-    for i in range(len(finStats)):
-        labels.append(finStats[i]["SEASON_ID"])
+    
+    for i in range(size, len(finStats)):
+        labels.append(finStats[i][settings["year_type"]])
         pts.append(finStats[i]["PTS"])
         rebs.append(finStats[i]["REB"])
         asts.append(finStats[i]["AST"])
         stls.append(finStats[i]["STL"])
         blks.append(finStats[i]["BLK"])
-        effs.append((pts[i] + rebs[i] + asts[i] + stls[i] + blks[i] - (finStats[i]["FGA"] - finStats[i]
+        effs.append((pts[i-size] + rebs[i-size] + asts[i-size] + stls[i-size] + blks[i-size] - (finStats[i]["FGA"] - finStats[i]
                     ["FGM"]) - (finStats[i]["FTA"] - finStats[i]["FTM"]) - finStats[i]["TOV"]) / finStats[i]["GP"])
+    
     if len(finStats) > 1:
-        predict = Predict(id=id)
+        predict = Predict(df=data.get_data_frames()[0], year_type=settings["year_type"])
         predictions = predict.predict()
         pts.append(predictions["PTS"])
         rebs.append(predictions["REB"])
@@ -36,7 +53,8 @@ def get_data(id):
                                                                             ["FGM"]) - (predictions["FTA"] - predictions["FTM"]) - predictions["TOV"]) / predictions["GP"])
         labels.append(str((int(labels[-1][:4])+1)) +
                       "-"+str((int(labels[-1][5:])+1))+"(P)")
+    
     finStatsDict = {"PTS": pts, "REB": rebs, "AST": asts,
-                    "STL": stls, "BLK": blks, "EFF": effs, "NAME": player_details["full_name"], "LABELS": labels}
+                    "STL": stls, "BLK": blks, "EFF": effs, "NAME": settings["name"]["full_name"], "LABELS": labels}
     statsDict = {"data": finStatsDict}
     return statsDict

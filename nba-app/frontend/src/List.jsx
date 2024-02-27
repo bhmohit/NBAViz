@@ -16,16 +16,18 @@ export default function List(props) {
   const { playerName } = useParams();
   let url = props.url;
   let title = props.title;
-
+  const imageUrlPre = props.type === "team" ? "https://cdn.nba.com/logos/nba/" : "https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/"
+  const imageUrlPost = props.type === "team" ? "/global/L/logo.svg" : ".png"
+  
   if (props.hasParams) {
-    url = url + playerName + "/";
+    url = url + "/" + playerName + "/";
     title = title + " " + playerName;
   }
 
   useEffect(() => {
     const getData = async () => {
       await axios
-        .get(`http://localhost:80/${url}`)
+        .get(`http://localhost:8000/${url}`)
         .then(function (response) {
           setFetchedData(response.data);
         })
@@ -66,12 +68,12 @@ export default function List(props) {
                 {fetchedData.map((value) => (
                   <Grid key={value} item>
                     <Card sx={{ maxWidth: 260 }}>
-                      <CardActionArea href={`/player/${value["id"]}`}>
+                      <CardActionArea href={`/${props.type}/${value["id"]}`}>
                         <CardMedia>
                           <img
                             height={190}
                             width={260}
-                            src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${value["id"]}.png`}
+                            src={imageUrlPre + value["id"] + imageUrlPost}
                             onError={(e) =>
                               (e.target.src =
                                 "https://global.discourse-cdn.com/turtlehead/original/2X/c/c830d1dee245de3c851f0f88b6c57c83c69f3ace.png")

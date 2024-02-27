@@ -2,39 +2,42 @@ import redis
 import pickle
 from .serializer import PlayerSerializer
 from django.http import JsonResponse
-from nba_api.stats.static import players
+from nba_api.stats.static import players, teams
 from .get_data import get_data
 import random
 
 
-def player_list(request, id):
+def data_list(request, type, id):
+    if type != "team" and type != "player":
+        raise Exception
     try:
-        r = redis.Redis(host="redis", port=6379)
-
+        r = redis.Redis(host="localhost", port=6379)
         if r.exists(id):
             statsDict = pickle.loads(r.get(id))
             return JsonResponse(statsDict, safe=False)
         else:
-            statsDict = get_data(id)
+            statsDict = get_data(id, type)
             r.set(id, pickle.dumps(statsDict, protocol=0))
             return JsonResponse(statsDict, safe=False)
 
     except redis.ConnectionError as e:
         # Handle Redis connection error
-        return JsonResponse({"error": "Failed to connect to Redis"}, status=500)
+        statsDict = get_data(id, type)
+        return JsonResponse(statsDict, safe=False)
 
     except Exception as e:
         # Handle other exceptions
         return JsonResponse({"error": str(e)}, status=500)
 
-    return HttpResponseNotFound()
-
-def home_page_data(request):
-    all_active = players.get_active_players()
+def home_page_data(request, type):
+    if type != 'team' and type != 'player':
+        return JsonResponse({"error": "eee"}, status=500)
+    data = (players.get_active_players(), teams.get_teams())[type == "team"]
+    size = (10, 5)[type == "team"]
     ret_list = []
-    for i in range(10):
-        player = all_active[random.randint(0,len(all_active)-1)]
-        obj = {"id": player['id'], "full_name": player['full_name']}
+    for i in range(size):
+        entity = data[random.randint(0,len(data)-1)]
+        obj = {"id": entity['id'], "full_name": entity['full_name']}
         ret_list.append(obj)
     return JsonResponse(ret_list, safe=False)
 
