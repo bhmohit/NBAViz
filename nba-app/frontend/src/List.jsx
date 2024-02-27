@@ -27,7 +27,7 @@ export default function List(props) {
   useEffect(() => {
     const getData = async () => {
       await axios
-        .get(`http://localhost:8000/${url}`)
+        .get(`http://localhost:80/${url}`)
         .then(function (response) {
           setFetchedData(response.data);
         })
