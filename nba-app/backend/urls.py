@@ -19,8 +19,10 @@ from django.urls import path
 from backend import views
 
 urlpatterns = [
-    path("home/", views.home_page_data),
     path("admin/", admin.site.urls),
+    path("team/", views.home_page_team_data),
+    path("player/", views.home_page_player_data),
     path("players/<int:id>/", views.player_list),
+    path("teams/<int:id>/", views.team_list),
     path("search/<str:name>/", views.search_page_data),
 ]

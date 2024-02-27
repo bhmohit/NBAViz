@@ -18,14 +18,14 @@ export default function List(props) {
   let title = props.title;
 
   if (props.hasParams) {
-    url = url + playerName + "/";
+    url = url + "/" + playerName + "/";
     title = title + " " + playerName;
   }
 
   useEffect(() => {
     const getData = async () => {
       await axios
-        .get(`http://localhost:80/${url}`)
+        .get(`http://localhost:8000/${url}`)
         .then(function (response) {
           setFetchedData(response.data);
         })
@@ -66,7 +66,7 @@ export default function List(props) {
                 {fetchedData.map((value) => (
                   <Grid key={value} item>
                     <Card sx={{ maxWidth: 260 }}>
-                      <CardActionArea href={`/player/${value["id"]}`}>
+                      <CardActionArea href={`/${url}/${value["id"]}`}>
                         <CardMedia>
                           <img
                             height={190}

@@ -24,7 +24,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/search/:playerName",
-    element: <List url={`search/`} loadFact={true} noDataMessage="Could not find player" hasParams={true} title={"Results for"}/>,
+    element: <List url={`search`} loadFact={true} noDataMessage="Could not find player" hasParams={true} title={"Results for"}/>,
     errorElement: (
       <Alert severity="error">Error, please try creating a GitHub Issue to describe the error</Alert>
     ),

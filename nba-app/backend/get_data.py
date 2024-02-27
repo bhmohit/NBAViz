@@ -3,7 +3,7 @@ from nba_api.stats.static import players
 from .predict import Predict
 
 
-def get_data(id):
+def get_player_data(id):
     career = playercareerstats.PlayerCareerStats(player_id=id)
     player_details = players.find_player_by_id(id)
     finStats = career.get_normalized_dict()
@@ -40,3 +40,7 @@ def get_data(id):
                     "STL": stls, "BLK": blks, "EFF": effs, "NAME": player_details["full_name"], "LABELS": labels}
     statsDict = {"data": finStatsDict}
     return statsDict
+
+
+def get_team_data(id):
+    return None

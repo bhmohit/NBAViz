@@ -31,11 +31,18 @@ export default function Home() {
         </form>
       </div>
       <List
-        url={`home/`}
+        url={`player`}
         hasParams={false}
         loadFact={false}
         noDataMessage="Players could not be retrieved"
         title="10 Random Players (Refresh for More)"
+      />
+      <List
+        url={`team`}
+        hasParams={false}
+        loadFact={false}
+        noDataMessage="Teams could not be retrieved"
+        title="5 Random Teams (Refresh for More)"
       />
     </div>
   );
