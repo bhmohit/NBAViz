@@ -5,7 +5,7 @@
 - Explore NBA player and team data (over the past 30 years) with intuitive graphical representations.
 - Easily search for specific players.
 
-## Technical Description 🛠️
+## Technical Description 💻
 
 - Predictions leverage ARIMA, a time-series forecasting model that determines future outcomes based on historical data.
 - Frontend developed using React, Material UI, and Chart.js for a user interface.
