@@ -36,7 +36,7 @@ export default function Data(props) {
 
   useEffect(() => {
     const getData = async () => {
-      await axios.get(`http://localhost:80/data/${type}/${id}/`)
+      await axios.get(process.env.REACT_APP_BACKEND + `data/${type}/${id}/`)
         .then(function (response) {
           setFetchedData(response.data.data);
         })

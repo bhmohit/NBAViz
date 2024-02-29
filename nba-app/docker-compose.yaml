@@ -21,6 +21,8 @@ services:
 
   frontend:
     build: ./frontend
+    environment:
+      - REACT_APP_BACKEND=http://localhost:80/
     container_name: fe
     command: npm run dev
     depends_on:

@@ -20,14 +20,14 @@ export default function List(props) {
   const imageUrlPost = props.type === "team" ? "/global/L/logo.svg" : ".png"
   
   if (props.hasParams) {
-    url = url + "/" + playerName + "/";
+    url =  url + "/" + playerName + "/";
     title = title + " " + playerName;
   }
 
   useEffect(() => {
     const getData = async () => {
       await axios
-        .get(`http://localhost:80/${url}`)
+        .get(process.env.REACT_APP_BACKEND + url)
         .then(function (response) {
           setFetchedData(response.data);
         })
