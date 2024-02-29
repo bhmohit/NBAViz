@@ -11,7 +11,7 @@ def data_list(request, type, id):
     if type != "team" and type != "player":
         raise Exception
     try:
-        r = redis.Redis(host="localhost", port=6379)
+        r = redis.Redis(host="redis", port=6379)
         if r.exists(id):
             statsDict = pickle.loads(r.get(id))
             return JsonResponse(statsDict, safe=False)

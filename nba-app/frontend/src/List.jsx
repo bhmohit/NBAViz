@@ -65,8 +65,8 @@ export default function List(props) {
           <Grid sx={{ flexGrow: 1 }} container spacing={2}>
             <Grid item xs={12}>
               <Grid container justifyContent="center" spacing={2}>
-                {fetchedData.map((value) => (
-                  <Grid key={value} item>
+                {fetchedData.map((value, idx) => (
+                  <Grid key={idx} item>
                     <Card sx={{ maxWidth: 260 }}>
                       <CardActionArea href={`/${props.type}/${value["id"]}`}>
                         <CardMedia>

@@ -20,7 +20,7 @@ export default function Home() {
     <div>
         <div className="form">
         <form onSubmit={handleSubmit}>
-          <label for="input"> Search for a player </label>
+          <label htmlFor="input"> Search for a player </label>
           <input
             type="text"
             id="input"
