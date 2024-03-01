@@ -24,6 +24,7 @@
 
 - **Step 1:** Set up the Docker image and run the container
   - Run `docker compose up`
+  - To get docker check out: https://docs.docker.com/get-docker/
 - **Step 2:** Visit localhost:5173 in your browser.
 
 ## Future Improvements 🚧
