@@ -32,14 +32,15 @@ def get_data(id, type):
     effs = []
     
     for i in range(size, len(finStats)):
-        if (i > 0 and finStats[i][settings["year_type"]] == labels[i-1]):
-            pts[i-1] += finStats[i]["PTS"]
-            rebs[i-1] += finStats[i]["REB"]
-            asts[i-1] += finStats[i]["AST"]
-            stls[i-1] += finStats[i]["STL"]
-            blks[i-1] += finStats[i]["BLK"]
-            effs[i-1] = (pts[i-size] + rebs[i-size] + asts[i-size] + stls[i-size] + blks[i-size] - (finStats[i]["FGA"] - finStats[i]
-                    ["FGM"]) - (finStats[i]["FTA"] - finStats[i]["FTM"]) - finStats[i]["TOV"]) / finStats[i]["GP"]
+        if len(labels) != 0 and finStats[i][settings["year_type"]] == labels[-1]:
+            pts[-1] += finStats[i]["PTS"]
+            rebs[-1] += finStats[i]["REB"]
+            asts[-1] += finStats[i]["AST"]
+            stls[-1] += finStats[i]["STL"]
+            blks[-1] += finStats[i]["BLK"]
+            efficiency = (finStats[i]["PTS"] + finStats[i]["REB"] + finStats[i]["AST"] + finStats[i]["STL"] + finStats[i]["BLK"]
+                        - (finStats[i]["FGA"] - finStats[i]["FGM"]) - (finStats[i]["FTA"] - finStats[i]["FTM"]) - finStats[i]["TOV"]) / finStats[i]["GP"]
+            effs[-1] = round((effs[-1] + efficiency) / 2)
         else:
             labels.append(finStats[i][settings["year_type"]])
             pts.append(finStats[i]["PTS"])
@@ -47,9 +48,9 @@ def get_data(id, type):
             asts.append(finStats[i]["AST"])
             stls.append(finStats[i]["STL"])
             blks.append(finStats[i]["BLK"])
-            effs.append((pts[i-size] + rebs[i-size] + asts[i-size] + stls[i-size] + blks[i-size] - (finStats[i]["FGA"] - finStats[i]
-                        ["FGM"]) - (finStats[i]["FTA"] - finStats[i]["FTM"]) - finStats[i]["TOV"]) / finStats[i]["GP"])
-    
+            efficiency = (finStats[i]["PTS"] + finStats[i]["REB"] + finStats[i]["AST"] + finStats[i]["STL"] + finStats[i]["BLK"]
+                        - (finStats[i]["FGA"] - finStats[i]["FGM"]) - (finStats[i]["FTA"] - finStats[i]["FTM"]) - finStats[i]["TOV"]) / finStats[i]["GP"]
+            effs.append(efficiency)    
     if len(finStats) > 1:
         predict = Predict(df=data.get_data_frames()[0], year_type=settings["year_type"])
         predictions = predict.predict()
@@ -65,5 +66,6 @@ def get_data(id, type):
     
     finStatsDict = {"PTS": pts, "REB": rebs, "AST": asts,
                     "STL": stls, "BLK": blks, "EFF": effs, "NAME": settings["name"]["full_name"], "LABELS": labels}
+    
     statsDict = {"data": finStatsDict}
     return statsDict
