@@ -1,30 +1,16 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-export default function Fact() {
-  const [fact, setFact] = useState(null);
+import "./Fact.css"
+import CircularProgress from '@mui/material/CircularProgress';
+import getFact from "myfacts";
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const getData = () => {
-      axios
-        .get("https://api.api-ninjas.com/v1/facts?limit=1", {
-          signal: controller.signal,
-          headers: {
-            'X-Api-Key': 'mAtRHJk9uwPHyqlENnnm7g==7rvsCh26pYbXd8on'
-          },
-        })
-        .then((responses) => setFact(responses.data));
-    };
-    getData();
-  }, []);
+export default function Fact() {
+  const fact = getFact("Software").fact;
   
   return (
     fact && (
-      <div>
-        {fact.map((value) => (
-          <div>{value.fact}</div>
-        ))}
-      </div>
+        <div className="mainContainer">
+          <CircularProgress/>
+          <p>Did you know: {fact}</p>
+        </div>
     )
   );
 }

@@ -96,6 +96,15 @@ export default function Data(props) {
         },
       ],
     };
+  } else {
+      if (throwError) {
+        return <h1>Insufficient data has been recorded on this player</h1>;
+      }
+      return (
+        <div>
+          <Fact />
+        </div>
+      );
   }
   const options = {
     responsive: true,
@@ -109,21 +118,6 @@ export default function Data(props) {
       },
     },
   };
-
-  if (!fetchedData) {
-    if (throwError) {
-      return <h1>Insufficient data has been recorded on this player</h1>;
-    }
-    return (
-      <div>
-        <p>
-          Loading... (This might take a while) Heres a random fact in the mean
-          time:
-        </p>
-        <Fact />
-      </div>
-    );
-  }
 
   return (
     <div className="main-container">

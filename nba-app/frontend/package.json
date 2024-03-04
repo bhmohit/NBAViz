@@ -15,6 +15,7 @@
     "@mui/material": "^5.15.9",
     "axios": "^1.6.7",
     "chart.js": "^4.4.1",
+    "myfacts": "^1.2.0",
     "process": "^0.11.10",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

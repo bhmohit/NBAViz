@@ -6,18 +6,17 @@ from nba_api.stats.static import players, teams
 from .get_data import get_data
 import random
 
-
 def data_list(request, type, id):
     if type != "team" and type != "player":
         raise Exception
     try:
         r = redis.Redis(host="redis", port=6379)
-        if r.exists(id):
-            statsDict = pickle.loads(r.get(id))
+        if r.exists("{}:{}".format(type, id)):
+            statsDict = pickle.loads(r.get("{}:{}".format(type, id)))
             return JsonResponse(statsDict, safe=False)
         else:
             statsDict = get_data(id, type)
-            r.set(id, pickle.dumps(statsDict, protocol=0))
+            r.set("{}:{}".format(type,id), pickle.dumps(statsDict, protocol=0))
             return JsonResponse(statsDict, safe=False)
 
     except redis.ConnectionError as e:
@@ -31,7 +30,7 @@ def data_list(request, type, id):
 
 def home_page_data(request, type):
     if type != 'team' and type != 'player':
-        return JsonResponse({"error": "eee"}, status=500)
+        return JsonResponse({"error": "error"}, status=500)
     data = (players.get_active_players(), teams.get_teams())[type == "team"]
     size = (10, 5)[type == "team"]
     ret_list = []
