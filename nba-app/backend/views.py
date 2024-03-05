@@ -3,11 +3,11 @@ import pickle
 from .serializer import PlayerSerializer
 from django.http import JsonResponse
 from nba_api.stats.static import players, teams
-from .get_data import get_data
+from .get_data import get_data, get_live_data
 import random
 
 def data_list(request, type, id):
-    if type != "team" and type != "player":
+    if type != "team" and type != "player" and type != "live":
         raise Exception
     try:
         r = redis.Redis(host="redis", port=6379)
@@ -15,13 +15,13 @@ def data_list(request, type, id):
             statsDict = pickle.loads(r.get("{}:{}".format(type, id)))
             return JsonResponse(statsDict, safe=False)
         else:
-            statsDict = get_data(id, type)
-            r.set("{}:{}".format(type,id), pickle.dumps(statsDict, protocol=0))
+            statsDict = get_data(type, id)
+            r.set("{}:{}".format(type, id), pickle.dumps(statsDict, protocol=0))
             return JsonResponse(statsDict, safe=False)
 
     except redis.ConnectionError as e:
         # Handle Redis connection error
-        statsDict = get_data(id, type)
+        statsDict = get_data(type, id)
         return JsonResponse(statsDict, safe=False)
 
     except Exception as e:

@@ -2,7 +2,10 @@ from nba_api.stats.endpoints import playercareerstats, teamyearbyyearstats
 from nba_api.stats.static import players, teams
 from .predict import Predict
 
-def get_data(id, type):
+def get_live_data():
+    return None
+
+def get_data(type, id):
     settings = {}
     if type == "team":
         settings["data"] = teamyearbyyearstats.TeamYearByYearStats(team_id=id)
