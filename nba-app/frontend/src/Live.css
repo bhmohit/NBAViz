@@ -1,32 +1,72 @@
 .middle {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
+    flex-direction: column;
     height: 100%;
 }
 
-img {
-    width: 100px;
-}
-
-.image {
+.data {
     display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
-.homeTeamImage {
-    justify-content: flex-end;
+.status {
+    margin-bottom: -10px;
+    font-size: 12px;
+    font-family: "Roboto";
+    text-transform: uppercase;
+    color: black;
 }
 
-.awayTeamImage {
-    justify-content: flex-start;
+.periods {
+    padding-top: 10px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 12px;
+    font-family: "Roboto";
+}
+
+img {
+    width: 110px;
+}
+
+.main {
+    max-width: 50%;
+    background-color: rgba(203, 203, 203, 0.629);
+    border-radius: 20px;
+}
+
+.parent {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
 }
 
 .score {
-    size: 1rem;
-    color: aqua;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: "Sofia Sans", sans-serif;
+    color: black;
 }
 
-.separator {
-    size: 100px;
-    color: black;
+/* Responsive Styles */
+@media only screen and (max-width: 768px) {
+    .main {
+        max-width: 100%;
+    }
+
+    img {
+        width: max-content;
+    }
+
+    .score {
+        font-size: 20px;
+    }
+
+    .periods {
+        font-size: 10px;
+    }
 }
