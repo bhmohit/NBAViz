@@ -1,0 +1,32 @@
+.middle {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+}
+
+img {
+    width: 100px;
+}
+
+.image {
+    display: flex;
+}
+
+.homeTeamImage {
+    justify-content: flex-end;
+}
+
+.awayTeamImage {
+    justify-content: flex-start;
+}
+
+.score {
+    size: 1rem;
+    color: aqua;
+}
+
+.separator {
+    size: 100px;
+    color: black;
+}

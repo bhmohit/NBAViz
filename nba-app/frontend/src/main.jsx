@@ -5,6 +5,7 @@ import List from "./List";
 import Home from "./Home";
 import { createBrowserRouter, RouterProvider} from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import Live from "./Live";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter([
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
     errorElement: (
       <Alert severity="error">Error, please try creating a GitHub Issue to describe the error</Alert>
     ),
+  },
+  {
+    path: "/live/",
+    element: <Live/>
   },
   {
     path: "/search/:playerName",
