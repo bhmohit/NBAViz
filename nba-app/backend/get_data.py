@@ -47,7 +47,7 @@ def get_data(id, type):
             asts.append(finStats[i]["AST"])
             stls.append(finStats[i]["STL"])
             blks.append(finStats[i]["BLK"])
-            efficiency = (finStats[i]["PTS"] + finStats[i]["REB"] + finStats[i]["AST"] + finStats[i]["STL"] + finStats[i]["BLK"]
+            efficiency = (pts[-1] + rebs[-1] + asts[-1] + stls[-1] + blks[-1]
                         - (finStats[i]["FGA"] - finStats[i]["FGM"]) - (finStats[i]["FTA"] - finStats[i]["FTM"]) - finStats[i]["TOV"]) / finStats[i]["GP"]
             effs.append(efficiency)    
     if len(finStats) > 1:
