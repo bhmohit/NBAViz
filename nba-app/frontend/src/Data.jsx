@@ -1,6 +1,6 @@
 import axios from "axios";
 import "./Data.css";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -30,13 +30,16 @@ export default function Data(props) {
   const { id } = useParams();
   const [throwError, setThrowError] = useState(false);
   const type = props.type;
-  const imageUrlPre = props.type === "team" ? "https://cdn.nba.com/logos/nba/" : "https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/"
-  const imageUrlPost = props.type === "team" ? "/global/L/logo.svg" : ".png"
-  
+  const imageUrlPre =
+    props.type === "team"
+      ? "https://cdn.nba.com/logos/nba/"
+      : "https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/";
+  const imageUrlPost = props.type === "team" ? "/global/L/logo.svg" : ".png";
 
   useEffect(() => {
     const getData = async () => {
-      await axios.get(process.env.REACT_APP_BACKEND + `data/${type}/${id}/`)
+      await axios
+        .get(process.env.REACT_APP_BACKEND + `data/${type}/${id}/`)
         .then(function (response) {
           setFetchedData(response.data.data);
         })
@@ -54,7 +57,6 @@ export default function Data(props) {
   if (fetchedData) {
     let labels = fetchedData["LABELS"];
     name = fetchedData["NAME"];
-    console.log(fetchedData)
     data = {
       labels,
       datasets: [
@@ -97,14 +99,14 @@ export default function Data(props) {
       ],
     };
   } else {
-      if (throwError) {
-        return <h1>Insufficient data has been recorded on this player</h1>;
-      }
-      return (
-        <div>
-          <Fact />
-        </div>
-      );
+    if (throwError) {
+      return <h1>Insufficient data has been recorded on this player</h1>;
+    }
+    return (
+      <div>
+        <Fact />
+      </div>
+    );
   }
   const options = {
     responsive: true,
@@ -122,8 +124,9 @@ export default function Data(props) {
   return (
     <div className="main-container">
       {fetchedData && (
-        <div className="main">
+        <div>
           <img
+            className="playerImg"
             height={190}
             width={260}
             src={imageUrlPre + id + imageUrlPost}
@@ -133,7 +136,7 @@ export default function Data(props) {
             }
             alt="Player"
           />
-          <div className="line-wrapper">
+          <div>
             <Line options={options} data={data} />
           </div>
         </div>

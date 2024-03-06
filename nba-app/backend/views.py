@@ -3,9 +3,29 @@ import pickle
 from .serializer import PlayerSerializer
 from django.http import JsonResponse
 from nba_api.stats.static import players, teams
-from .get_data import get_data
+from .get_data import get_data, get_live_data
 import random
 
+def live_data(request):
+    try:
+        r = redis.Redis(host="redis", port=6379)
+        if r.exists("live"):
+            live_array = pickle.loads(r.get("live"))
+            return JsonResponse(live_array, safe=False)
+        else:
+            live_array = get_live_data()
+            r.set("live", pickle.dumps(live_array, protocol=0))
+            return JsonResponse(live_array, safe=False)
+
+    except redis.ConnectionError as e:
+        # Handle Redis connection error
+        live_array = get_live_data()
+        return JsonResponse(live_array, safe=False)
+
+    except Exception as e:
+        # Handle other exceptions
+        return JsonResponse({"error": str(e)}, status=500)
+    
 def data_list(request, type, id):
     if type != "team" and type != "player":
         raise Exception
@@ -15,13 +35,13 @@ def data_list(request, type, id):
             statsDict = pickle.loads(r.get("{}:{}".format(type, id)))
             return JsonResponse(statsDict, safe=False)
         else:
-            statsDict = get_data(id, type)
-            r.set("{}:{}".format(type,id), pickle.dumps(statsDict, protocol=0))
+            statsDict = get_data(type, id)
+            r.set("{}:{}".format(type, id), pickle.dumps(statsDict, protocol=0))
             return JsonResponse(statsDict, safe=False)
 
     except redis.ConnectionError as e:
         # Handle Redis connection error
-        statsDict = get_data(id, type)
+        statsDict = get_data(type, id)
         return JsonResponse(statsDict, safe=False)
 
     except Exception as e:

@@ -5,6 +5,7 @@ import List from "./List";
 import Home from "./Home";
 import { createBrowserRouter, RouterProvider} from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import Live from "./Live";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter([

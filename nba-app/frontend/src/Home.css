@@ -12,3 +12,8 @@ form
     padding-top: 1em;
     padding-bottom: 1em;
 }
+
+.recent {
+    padding-top: 20px;
+    text-align: center;
+}

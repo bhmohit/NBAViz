@@ -23,4 +23,5 @@ urlpatterns = [
     path("home/<str:type>/", views.home_page_data),
     path("data/<str:type>/<int:id>/", views.data_list),
     path("search/<str:name>/", views.search_page_data),
+    path("live/", views.live_data),
 ]
