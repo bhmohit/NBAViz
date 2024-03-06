@@ -1,30 +1,57 @@
 import Grid from "@mui/material/Grid";
 import "./Live.css";
 
-export default function Live() {
+export default function Live(props) {
+  console.log(props)
+  const gameData = props.gameData;
+  const gameStatus = gameData["gameStatusText"];
+  const homeTeamData = gameData["homeTeam"];
+  const awayTeamData = gameData["awayTeam"];
+  const periods = gameData["periods"];
   return (
     <div className="parent">
       <Grid container spacing={0} className="main">
         <Grid item xs>
-          <img src="https://cdn.nba.com/logos/nba/1610612739/global/L/logo.svg" />
+          <div className="image">
+            <img
+              src={`https://cdn.nba.com/logos/nba/${homeTeamData["teamID"]}/global/L/logo.svg`}
+            />
+            <div>{homeTeamData["teamName"]}</div>
+            <div>
+              ({homeTeamData["wins"]}-{homeTeamData["losses"]})
+            </div>
+          </div>
         </Grid>
         <Grid item xs={6}>
           <div className="middle">
-            <div className="status">Final</div>
+            <div className="status">{gameStatus}</div>
             <div className="data">
-              <span className="score">255</span>
-              <span className="score">255</span>
+              <span className="score">{homeTeamData["score"]}</span>
+              <span className="score">{awayTeamData["score"]}</span>
             </div>
             <div className="periods">
-              <span><b>1<sup>st</sup></b> 25-28</span>
-              <span><b>2<sup>st</sup></b> 25-28</span>
-              <span><b>3<sup>st</sup></b> 25-28</span>
-              <span><b>4<sup>st</sup></b> 25-28</span>
+              {periods.map((value, idx) => {
+                <span key={idx}>
+                  <b>
+                    {idx + 1}
+                    <sup>st</sup>
+                  </b>
+                  {value}
+                </span>;
+              })}
             </div>
           </div>
         </Grid>
         <Grid item xs>
-          <img src="https://cdn.nba.com/logos/nba/1610612752/global/L/logo.svg" />
+          <div className="image">
+            <img
+              src={`https://cdn.nba.com/logos/nba/${awayTeamData["teamID"]}/global/L/logo.svg`}
+            />
+            <div>{awayTeamData["teamName"]}</div>
+            <div>
+              ({awayTeamData["wins"]}-{awayTeamData["losses"]})
+            </div>
+          </div>
         </Grid>
       </Grid>
     </div>

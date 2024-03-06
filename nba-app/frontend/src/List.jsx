@@ -47,7 +47,6 @@ export default function List(props) {
       <div>
         {props.loadFact ? (
           <div>
-            <p>Loading... Heres a random fact in the mean time:</p>
             <Fact />
           </div>
         ) : (

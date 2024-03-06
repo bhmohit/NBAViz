@@ -1,9 +1,39 @@
 from nba_api.stats.endpoints import playercareerstats, teamyearbyyearstats
+from nba_api.live.nba.endpoints import scoreboard
 from nba_api.stats.static import players, teams
 from .predict import Predict
 
 def get_live_data():
-    return None
+    sb = scoreboard.ScoreBoard().games.get_dict()
+    ret_games = []
+    for game in sb:
+        ret_games.append({
+            "gameID" :  game["gameId"],
+            "gameStatusText" : game["gameStatusText"],
+            "period" : game["period"],
+            "gameClock" : game["gameClock"],
+            "homeTeam" : {
+                "teamID" : game["homeTeam"]["teamId"],
+                "teamName" : game["homeTeam"]["teamName"],
+                "wins": game["homeTeam"]["wins"],
+                "losses" : game["homeTeam"]["losses"],
+                "score" : game["homeTeam"]["score"],
+            },
+            "awayTeam" : {
+                "teamID" : game["awayTeam"]["teamId"],
+                "teamName" : game["awayTeam"]["teamName"],
+                "wins": game["awayTeam"]["wins"],
+                "losses" : game["awayTeam"]["losses"],
+                "score" : game["awayTeam"]["score"],
+            },
+        })
+        period = []
+        for i in range(0, game["period"]):
+            period.append(
+                "{}-{}".format(game["homeTeam"]["periods"][i]["score"], game["awayTeam"]["periods"][i]["score"])
+            )
+        ret_games[-1]["periods"] = period
+    return ret_games
 
 def get_data(type, id):
     settings = {}

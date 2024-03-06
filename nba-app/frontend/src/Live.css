@@ -29,7 +29,7 @@
     font-family: "Roboto";
 }
 
-img {
+.image > img {
     width: 110px;
 }
 
@@ -45,6 +45,19 @@ img {
     padding-bottom: 20px;
 }
 
+.image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.image > div {
+    font-size: 12px;
+    font-family: "Roboto";
+    margin-bottom: 10px;
+}
+
 .score {
     font-size: 25px;
     font-weight: bold;
@@ -52,13 +65,12 @@ img {
     color: black;
 }
 
-/* Responsive Styles */
 @media only screen and (max-width: 768px) {
     .main {
         max-width: 100%;
     }
 
-    img {
+    .image > img {
         width: max-content;
     }
 

@@ -31,10 +31,6 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/live/",
-    element: <Live/>
-  },
-  {
     path: "/search/:playerName",
     element: <List url={`search`} type={"player"} loadFact={true} noDataMessage="Could not find player" hasParams={true} title={"Results for"}/>,
     errorElement: (

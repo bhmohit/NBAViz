@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import List from "./List";
 import "./Home.css";
+import axios from "axios";
+import Live from "./Live";
+import Fact from "./Fact";
 
 export default function Home() {
   const history = useNavigate();
   const [inputValue, setInputValue] = useState("");
+  const [fetchedData, setFetchedData] = useState(null);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -15,6 +19,24 @@ export default function Home() {
     event.preventDefault();
     history(`/search/${inputValue}`);
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      await axios
+        .get(process.env.REACT_APP_BACKEND + "live/")
+        .then(function (response) {
+          setFetchedData(response.data);
+        })
+        .catch(function (error) {
+          if (error.response) console.log(error);
+        });
+    };
+    getData();
+  }, []);
+
+  if (!fetchedData) {
+    return <Fact />;
+  }
 
   return (
     <div>
@@ -46,6 +68,10 @@ export default function Home() {
         noDataMessage="Teams could not be retrieved"
         title="5 Random Teams (Refresh for More)"
       />
+      <h2 className="recent">Recent Games: </h2>
+        {fetchedData.map((value, idx) => {
+          return <Live key={idx} gameData={value} />;
+        })}
     </div>
   );
 }
