@@ -4,6 +4,7 @@
 
 - Explore NBA player and team data (over the past 30 years) with intuitive graphical representations.
 - Easily search for specific players.
+- View latest game data
 
 ## Technical Description 💻
 
@@ -17,7 +18,6 @@
 ## Currently Working On 🛠️
 
 - Enhancing the aesthetics of the frontend.
-- Integrating live/recent game data into the application.
 - Deploying the application.
 
 ## How To Setup ⚙️
