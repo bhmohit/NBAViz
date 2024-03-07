@@ -30,15 +30,15 @@ export default function Live(props) {
               <span className="score">{awayTeamData["score"]}</span>
             </div>
             <div className="periods">
-              {periods.map((value, idx) => {
+              {periods.map((value, idx) => (
                 <span key={idx}>
                   <b>
                     {idx + 1}
                     <sup>st</sup>
                   </b>
                   {value}
-                </span>;
-              })}
+                </span>
+              ))}
             </div>
           </div>
         </Grid>
