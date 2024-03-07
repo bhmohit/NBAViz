@@ -14,7 +14,10 @@ def live_data(request):
             return JsonResponse(live_array, safe=False)
         else:
             live_array = get_live_data()
-            r.set("live", pickle.dumps(live_array, protocol=0))
+            expiry = None
+            if (live_array["period"] != ""):
+                expiry = 180
+            r.set("live", pickle.dumps(live_array, protocol=0), ex=expiry)
             return JsonResponse(live_array, safe=False)
 
     except redis.ConnectionError as e:
