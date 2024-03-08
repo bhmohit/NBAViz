@@ -2,12 +2,12 @@ import Grid from "@mui/material/Grid";
 import "./Live.css";
 
 export default function Live(props) {
-  console.log(props)
   const gameData = props.gameData;
   const gameStatus = gameData["gameStatusText"];
   const homeTeamData = gameData["homeTeam"];
   const awayTeamData = gameData["awayTeam"];
   const periods = gameData["periods"];
+  
   return (
     <div className="parent">
       <Grid container spacing={0} className="main">

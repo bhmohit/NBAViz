@@ -5,13 +5,13 @@ from .predict import Predict
 
 def get_live_data():
     sb = scoreboard.ScoreBoard().games.get_dict()
-    ret_games = []
+    live_games = []
+    is_live = False
     for game in sb:
-        ret_games.append({
+        live_games.append({
             "gameID" :  game["gameId"],
             "gameStatusText" : game["gameStatusText"],
             "period" : game["period"],
-            "gameClock" : game["gameClock"],
             "homeTeam" : {
                 "teamID" : game["homeTeam"]["teamId"],
                 "teamName" : game["homeTeam"]["teamName"],
@@ -32,8 +32,11 @@ def get_live_data():
             period.append(
                 "{}-{}".format(game["homeTeam"]["periods"][i]["score"], game["awayTeam"]["periods"][i]["score"])
             )
-        ret_games[-1]["periods"] = period
-    return ret_games
+        live_games[-1]["periods"] = period
+        if live_games[-1]["period"] != "":
+            is_live = True
+    live_games[-1] = is_live
+    return live_games
 
 def get_data(type, id):
     settings = {}

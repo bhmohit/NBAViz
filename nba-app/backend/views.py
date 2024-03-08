@@ -8,17 +8,19 @@ import random
 
 def live_data(request):
     try:
+        live_array = None
         r = redis.Redis(host="redis", port=6379)
         if r.exists("live"):
             live_array = pickle.loads(r.get("live"))
-            return JsonResponse(live_array, safe=False)
         else:
             live_array = get_live_data()
-            expiry = None
-            if (live_array["period"] != ""):
-                expiry = 180
+            expiry = 24 * 60 * 60
+            if live_array[-1]:
+                expiry = 600
             r.set("live", pickle.dumps(live_array, protocol=0), ex=expiry)
-            return JsonResponse(live_array, safe=False)
+        r.close()
+        live_array.pop()
+        return JsonResponse(live_array, safe=False)
 
     except redis.ConnectionError as e:
         # Handle Redis connection error
@@ -30,38 +32,38 @@ def live_data(request):
         return JsonResponse({"error": str(e)}, status=500)
     
 def data_list(request, type, id):
-    if type != "team" and type != "player":
-        raise Exception
-    try:
-        r = redis.Redis(host="redis", port=6379)
-        if r.exists("{}:{}".format(type, id)):
-            statsDict = pickle.loads(r.get("{}:{}".format(type, id)))
+    if type == "team" or type == "player":
+        try:
+            statsDict = None
+            r = redis.Redis(host="redis", port=6379)
+            if r.exists("{}:{}".format(type, id)):
+                statsDict = pickle.loads(r.get("{}:{}".format(type, id)))
+            else:
+                statsDict = get_data(type, id)
+                r.set("{}:{}".format(type, id), pickle.dumps(statsDict, protocol=0))
+            r.close()    
             return JsonResponse(statsDict, safe=False)
-        else:
+        
+        except redis.ConnectionError as e:
+            # Handle Redis connection error
             statsDict = get_data(type, id)
-            r.set("{}:{}".format(type, id), pickle.dumps(statsDict, protocol=0))
             return JsonResponse(statsDict, safe=False)
 
-    except redis.ConnectionError as e:
-        # Handle Redis connection error
-        statsDict = get_data(type, id)
-        return JsonResponse(statsDict, safe=False)
-
-    except Exception as e:
-        # Handle other exceptions
-        return JsonResponse({"error": str(e)}, status=500)
+        except Exception as e:
+            # Handle other exceptions
+            return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"error": str(e)}, status=500)
 
 def home_page_data(request, type):
-    if type != 'team' and type != 'player':
-        return JsonResponse({"error": "error"}, status=500)
-    data = (players.get_active_players(), teams.get_teams())[type == "team"]
-    size = (10, 5)[type == "team"]
-    ret_list = []
-    for i in range(size):
-        entity = data[random.randint(0,len(data)-1)]
-        obj = {"id": entity['id'], "full_name": entity['full_name']}
-        ret_list.append(obj)
-    return JsonResponse(ret_list, safe=False)
+    if type == 'team' or type == 'player':
+        data = (players.get_active_players(), teams.get_teams())[type == "team"]
+        size = (10, 5)[type == "team"]
+        ret_list = []
+        for i in range(size):
+            entity = data[random.randint(0,len(data)-1)]
+            obj = {"id": entity['id'], "full_name": entity['full_name']}
+            ret_list.append(obj)
+        return JsonResponse(ret_list, safe=False)
 
 def search_page_data(request, name):
     active_players_matching_name = players.find_players_by_full_name(name)
