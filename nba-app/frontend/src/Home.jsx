@@ -68,7 +68,7 @@ export default function Home() {
         noDataMessage="Teams could not be retrieved"
         title="5 Random Teams (Refresh for More)"
       />
-      <h2 className="recent">Recent Games: </h2>
+      <h2 className="recent">Recent Games (Updates every 10 minutes if a game is live): </h2>
         {fetchedData.map((value, idx) => {
           return <Live key={idx} gameData={value} />;
         })}
