@@ -15,16 +15,17 @@ def live_data(request):
         else:
             live_array = get_live_data()
             expiry = 24 * 60 * 60
-            if live_array[-1]:
+            if live_array[-1] == "true":
                 expiry = 600
+            live_array.pop()
             r.set("live", pickle.dumps(live_array, protocol=0), ex=expiry)
         r.close()
-        live_array.pop()
         return JsonResponse(live_array, safe=False)
 
     except redis.ConnectionError as e:
         # Handle Redis connection error
         live_array = get_live_data()
+        live_array.pop()
         return JsonResponse(live_array, safe=False)
 
     except Exception as e:
