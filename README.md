@@ -20,12 +20,16 @@
 - Enhancing the aesthetics of the frontend.
 - Deploying the application.
 
-## How To Setup ⚙️
+## How To Setup Locally ⚙️
 
 - **Step 1:** Set up the Docker image and run the container
   - Run `docker compose up`
   - To get docker check out: https://docs.docker.com/get-docker/
 - **Step 2:** Visit localhost:5173 in your browser.
+
+## Challenges Faced ⚠️
+
+- The application relies on an API that scrapes data from stats.nba.com, making it challenging to run on a cloud-hosted machine without incurring additional costs for a proxy. This obstacle arises from the rate limitations imposed on IP addresses associated with cloud providers such as AWS, DigitalOcean. 
 
 ## Future Improvements 🚧
 
