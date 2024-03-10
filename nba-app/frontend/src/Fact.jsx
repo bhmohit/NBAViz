@@ -4,7 +4,7 @@ import getFact from "myfacts";
 
 export default function Fact() {
   const fact = getFact("Software").fact;
-  
+
   return (
     fact && (
         <div className="mainContainer">
