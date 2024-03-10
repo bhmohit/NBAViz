@@ -11,9 +11,5 @@ form
     text-align: left;
     padding-top: 1em;
     padding-bottom: 1em;
-}
-
-.recent {
-    padding-top: 20px;
-    text-align: center;
+    font-family: "Roboto";
 }

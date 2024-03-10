@@ -6,6 +6,7 @@ import Home from "./Home";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Navbar from "./Navbar";
+import LiveList from "./LiveList";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const HeaderLayout = () => (
@@ -23,30 +24,46 @@ const router = createBrowserRouter([
       {
         path: "/player/:id",
         element: <Data type={"player"} />,
-        errorElement: (
-          <Alert severity="error">
-            Error, please try creating a GitHub Issue to describe the error
-          </Alert>
+      },
+      {
+        path: "/players",
+        element: (
+          <List
+            url={`home/player`}
+            type={"player"}
+            hasParams={false}
+            loadFact={false}
+            noDataMessage="Players could not be retrieved"
+            title="10 Random Players (Refresh for More)"
+          />
         ),
+      },
+      {
+        path: "/teams",
+        element: (
+          <List
+            url={`home/team`}
+            type={"team"}
+            hasParams={false}
+            loadFact={false}
+            noDataMessage="Teams could not be retrieved"
+            title="5 Random Teams (Refresh for More)"
+          />
+        ),
+      },
+      {
+        path: "/matches",
+        element: <LiveList />,
       },
       {
         path: "/team/:id",
         element: <Data type={"team"} />,
-        errorElement: (
-          <Alert severity="error">
-            Error, please try creating a GitHub Issue to describe the error
-          </Alert>
-        ),
       },
       {
         path: "/",
         element: <Home />,
-        errorElement: (
-          <Alert severity="error">
-            Error, please try creating a GitHub Issue to describe the error
-          </Alert>
-        ),
       },
+
       {
         path: "/search/:playerName",
         element: (
@@ -59,13 +76,13 @@ const router = createBrowserRouter([
             title={"Results for"}
           />
         ),
-        errorElement: (
-          <Alert severity="error">
-            Error, please try creating a GitHub Issue to describe the error
-          </Alert>
-        ),
       },
     ],
+    errorElement: (
+      <Alert severity="error">
+        Error, please try creating a GitHub Issue to describe the error
+      </Alert>
+    ),
   },
 ]);
 root.render(<RouterProvider router={router} />);

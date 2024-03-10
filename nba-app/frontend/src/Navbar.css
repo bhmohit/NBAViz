@@ -1,0 +1,54 @@
+body {
+    margin: 0;
+}
+
+.nav {
+    box-sizing: border-box;
+    display: flex;
+    background-color: #38393b;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0px 0px 20px 20px;
+    padding: 0px 10px 0px 10px;
+}
+
+.branding > img {
+    width: 20%;
+}
+
+.branding > h1 {
+    color: white;
+    font-family: "Sofia Sans", sans-serif;
+    padding-left: 20px;
+    font-size: 25px;
+}
+
+.branding {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.pages {
+    margin-right: 20px;
+}
+
+.pages > ul {
+    padding-inline-start: 0;
+}
+
+.pages > ul > a {
+    text-decoration: none;
+    color: white;
+    font-family: "Roboto";
+    padding: 10px 25px 10px 25px;
+}
+
+.pages > ul > a:hover {
+    background-color: #b9b9b9;
+    height: 20px;
+    -webkit-transition: background-color 500ms linear;
+    -ms-transition: background-color 500ms linear;
+    transition: background-color 200ms ease-in-out;
+}
