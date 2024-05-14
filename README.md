@@ -1,5 +1,8 @@
 # NBAViz 🏀
 
+## Demo 📹
+![Video](https://github.com/bhmohit/NBAViz/blob/main/app.gif)
+
 ## Features 🚀
 
 - Explore NBA player and team data (over the past 30 years) with intuitive graphical representations.
