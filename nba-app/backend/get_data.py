@@ -1,59 +1,29 @@
-from nba_api.stats.endpoints import playercareerstats, teamyearbyyearstats
-from nba_api.live.nba.endpoints import scoreboard
-from nba_api.stats.static import players, teams
+import requests
+import pickle
+import base64
+import os
+from dotenv import load_dotenv
 from .predict import Predict
 
 def get_live_data():
-    sb = scoreboard.ScoreBoard().games.get_dict()
-    live_games = []
-    is_live = False
-    for game in sb:
-        live_games.append({
-            "gameID" :  game["gameId"],
-            "gameStatusText" : game["gameStatusText"],
-            "period" : game["period"],
-            "homeTeam" : {
-                "teamID" : game["homeTeam"]["teamId"],
-                "teamName" : game["homeTeam"]["teamName"],
-                "wins": game["homeTeam"]["wins"],
-                "losses" : game["homeTeam"]["losses"],
-                "score" : game["homeTeam"]["score"],
-            },
-            "awayTeam" : {
-                "teamID" : game["awayTeam"]["teamId"],
-                "teamName" : game["awayTeam"]["teamName"],
-                "wins": game["awayTeam"]["wins"],
-                "losses" : game["awayTeam"]["losses"],
-                "score" : game["awayTeam"]["score"],
-            },
-        })
-        period = []
-        for i in range(0, game["period"]):
-            period.append(
-                "{}-{}".format(game["homeTeam"]["periods"][i]["score"], game["awayTeam"]["periods"][i]["score"])
-            )
-        live_games[-1]["periods"] = period
-        if live_games[-1]["period"] != "":
-            is_live = True
-    live_games[-1] = is_live
-    return live_games
+    body = {"type": "live"}
+    response = requests.post(os.getenv('DATA_URL'), json=body)
+    return pickle.loads(base64.b64decode(response.content))
+
 
 def get_data(type, id):
-    settings = {}
+    body = {"type": type, "id": id}
+    response = requests.post(os.getenv('DATA_URL'), json=body)
+    settings = pickle.loads(base64.b64decode(response.content))
+    
     if type == "team":
-        settings["data"] = teamyearbyyearstats.TeamYearByYearStats(team_id=id)
-        settings["name"] = teams.find_team_name_by_id(id)
-        settings["final_stats"] = settings["data"].get_normalized_dict()["TeamStats"]
         settings["size"] = len(settings["final_stats"])-35
         settings["year_type"] = "YEAR"
     
     elif type == "player":
-        settings["data"] = playercareerstats.PlayerCareerStats(player_id=id)
-        settings["name"] = players.find_player_by_id(id)
-        settings["final_stats"] = settings["data"].get_normalized_dict()["SeasonTotalsRegularSeason"]
         settings["size"] = 0
         settings["year_type"] = "SEASON_ID"
-            
+    
     data = settings["data"]
     size = settings["size"]
     finStats = settings["final_stats"]
@@ -87,7 +57,7 @@ def get_data(type, id):
                         - (finStats[i]["FGA"] - finStats[i]["FGM"]) - (finStats[i]["FTA"] - finStats[i]["FTM"]) - finStats[i]["TOV"]) / finStats[i]["GP"]
             effs.append(efficiency)    
     if len(finStats) > 1:
-        predict = Predict(df=data.get_data_frames()[0], year_type=settings["year_type"])
+        predict = Predict(df=data, year_type=settings["year_type"])
         predictions = predict.predict()
         pts.append(predictions["PTS"])
         rebs.append(predictions["REB"])

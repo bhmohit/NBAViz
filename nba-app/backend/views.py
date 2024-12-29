@@ -1,6 +1,5 @@
 import redis
 import pickle
-from .serializer import PlayerSerializer
 from django.http import JsonResponse
 from nba_api.stats.static import players, teams
 from .get_data import get_data, get_live_data
