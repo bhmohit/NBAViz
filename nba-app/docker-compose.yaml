@@ -18,8 +18,10 @@ services:
     networks:
       - app-network
 
-  nginx:
-    container_name: nginx
+  frontend:
+    build:
+      context: .  
+      dockerfile: ./frontend/Dockerfile
     ports:
       - "80:80"
     volumes:
