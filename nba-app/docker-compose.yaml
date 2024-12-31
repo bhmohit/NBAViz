@@ -37,6 +37,7 @@ services:
     volumes:
       - static:/static
     depends_on:
+      - frontend
       - backend
     networks:
       - app-network
