@@ -18,16 +18,16 @@ services:
     networks:
       - app-network
 
-  # frontend:
-  #   build: ./frontend
-  #   container_name: frontend
-  #   command: npm run build
-  #   environment:
-  #     - REACT_APP_BACKEND=http://nginx
-  #   volumes:
-  #     - ./frontend/dist:/usr/share/nginx/html
-  #   networks:
-  #     - app-network
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    command: npm run build
+    environment:
+      - REACT_APP_BACKEND=http://16.171.182.204/api/
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html
+    networks:
+      - app-network
 
   nginx:
     build: ./nginx
