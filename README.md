@@ -3,6 +3,14 @@
 ## Demo 📹
 ![Video](https://github.com/bhmohit/NBAViz/blob/main/app.gif)
 
+## Challenges Faced ⚠️ -- NOT CURRENT ISSUES
+- The application relies on an API that scrapes data from stats.nba.com, making running on a cloud-hosted machine challenging without incurring additional costs for a proxy. This obstacle arises from the rate limitations imposed on IP addresses associated with cloud providers such as AWS, DigitalOcean.
+
+##Deployment information
+- To address challenges with data fetching, I deployed the API locally on a Raspberry Pi and used Cloudflare Tunnels to enable secure outbound connections to the Pi.
+- I bundled the frontend and backend applications, serving them under the same domain using NGINX.
+- The complete application was deployed on an Amazon EC2 instance for scalability and accessibility.
+
 ## Features 🚀
 
 - Explore NBA player and team data (over the past 30 years) with intuitive graphical representations.
@@ -17,14 +25,6 @@
 - Redis utilized for caching previously generated predictions.
 - Nginx, employed as a reverse proxy, and Gunicorn serve the Django app efficiently.
 - Docker employed to containerize the application for seamless deployment.
-
-## Currently Working On 🛠️
-
-- Enhancing the aesthetics of the frontend.
-- Deploying the application.
-
-## Challenges Faced ⚠️
-- The application relies on an API that scrapes data from stats.nba.com, making it challenging to run on a cloud-hosted machine without incurring additional costs for a proxy. This obstacle arises from the rate limitations imposed on IP addresses associated with cloud providers such as AWS, DigitalOcean. 
 
 ## How To Setup Locally ⚙️
 
