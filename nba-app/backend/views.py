@@ -13,9 +13,9 @@ def live_data(request):
             live_array = pickle.loads(r.get("live"))
         else:
             live_array = get_live_data()
-            expiry = 24 * 60 * 60
-            if live_array[-1] == "true":
-                expiry = 600
+            expiry = 600
+            if live_array[-1] == "false":
+                expiry = 5 * 60 * 60
             live_array.pop()
             r.set("live", pickle.dumps(live_array, protocol=0), ex=expiry)
         r.close()
