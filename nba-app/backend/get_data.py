@@ -8,6 +8,8 @@ from .predict import Predict
 def get_live_data():
     body = {"type": "live"}
     response = requests.post(os.getenv('DATA_URL'), json=body)
+    if response.status_code >= 500:
+        raise Exception
     return pickle.loads(base64.b64decode(response.content))
 
 

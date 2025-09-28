@@ -6,6 +6,7 @@ import axios from "axios";
 
 export default function LiveList() {
   const [fetchedData, setFetchedData] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const getData = async () => {
@@ -15,11 +16,17 @@ export default function LiveList() {
           setFetchedData(response.data);
         })
         .catch(function (error) {
-          if (error.response) console.log(error);
+          if (error.response) {
+            setError("There are no live matches to display");
+          }
         });
     };
     getData();
   }, []);
+
+  if (error) {
+    return <h1 style={{ textAlign: 'center' }}>{error}</h1>;
+  }
 
   if (!fetchedData) {
     return <Fact />;
