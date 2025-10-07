@@ -1,0 +1,326 @@
+.compare-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.compare-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border-radius: 20px;
+}
+
+.compare-title {
+    font-size: 3rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    letter-spacing: -1px;
+}
+
+.compare-subtitle {
+    font-size: 1.25rem;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.selector-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.selector-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+}
+
+.selector-wrapper label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-left: 0.5rem;
+}
+
+.entity-selector {
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    background: white;
+    color: #2d3748;
+    font-family: "Inter", "Roboto", sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.entity-selector:hover {
+    border-color: #667eea;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.entity-selector:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.vs-divider {
+    font-size: 2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    padding: 0 1rem;
+    align-self: center;
+}
+
+.compare-button {
+    display: block;
+    margin: 0 auto 3rem;
+    padding: 1rem 3rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.compare-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+}
+
+.compare-button:active {
+    transform: translateY(-1px);
+}
+
+.error-message {
+    text-align: center;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #fee;
+    color: #c33;
+    border-radius: 15px;
+    max-width: 500px;
+    font-weight: 600;
+}
+
+.comparison-results {
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.entity-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.entity-card {
+    background: white;
+    border-radius: 25px;
+    padding: 2rem;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.entity-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+}
+
+.entity-image {
+    width: 200px;
+    height: 150px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+    transition: transform 0.3s ease;
+}
+
+.entity-card:hover .entity-image {
+    transform: scale(1.05);
+}
+
+.entity-card h3 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+}
+
+.quick-stats {
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    border-radius: 15px;
+    flex: 1;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #718096;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.chart-container {
+    background: white;
+    border-radius: 25px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.chart-container:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.chart-full-width {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 1200px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-full-width {
+        grid-column: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .compare-container {
+        padding: 1rem;
+    }
+
+    .compare-title {
+        font-size: 2rem;
+    }
+
+    .compare-subtitle {
+        font-size: 1rem;
+    }
+
+    .selector-section {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .selector-wrapper {
+        max-width: 100%;
+    }
+
+    .vs-divider {
+        font-size: 1.5rem;
+        padding: 0.5rem 0;
+    }
+
+    .compare-button {
+        width: 100%;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+    }
+
+    .entity-cards {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .entity-image {
+        width: 150px;
+        height: 112px;
+    }
+
+    .entity-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .chart-container {
+        padding: 1rem;
+    }
+}

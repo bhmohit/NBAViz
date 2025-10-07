@@ -73,3 +73,73 @@ def search_page_data(request, name):
         obj = {"id": player['id'], "full_name": player['full_name']}
         ret_list.append(obj)
     return JsonResponse(ret_list, safe=False)
+
+def compare_data(request, type, id1, id2):
+    """Compare two players or teams"""
+    if type == "team" or type == "player":
+        try:
+            r = redis.Redis(host="redis", port=6379)
+            
+            # Get data for first entity
+            data1 = None
+            if r.exists("{}:{}".format(type, id1)):
+                data1 = pickle.loads(r.get("{}:{}".format(type, id1)))
+            else:
+                data1 = get_data(type, id1)
+                r.set("{}:{}".format(type, id1), pickle.dumps(data1, protocol=0))
+            
+            # Get data for second entity
+            data2 = None
+            if r.exists("{}:{}".format(type, id2)):
+                data2 = pickle.loads(r.get("{}:{}".format(type, id2)))
+            else:
+                data2 = get_data(type, id2)
+                r.set("{}:{}".format(type, id2), pickle.dumps(data2, protocol=0))
+            
+            r.close()
+            
+            comparison_data = {
+                "entity1": data1,
+                "entity2": data2
+            }
+            
+            return JsonResponse(comparison_data, safe=False)
+        
+        except redis.ConnectionError as e:
+            # Handle Redis connection error
+            data1 = get_data(type, id1)
+            data2 = get_data(type, id2)
+            comparison_data = {
+                "entity1": data1,
+                "entity2": data2
+            }
+            return JsonResponse(comparison_data, safe=False)
+        
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    
+    return JsonResponse({"error": "Invalid type"}, status=400)
+
+def all_players(request):
+    """Get all active players for comparison dropdown"""
+    try:
+        all_players_list = players.get_active_players()
+        ret_list = []
+        for player in all_players_list:
+            obj = {"id": player['id'], "full_name": player['full_name']}
+            ret_list.append(obj)
+        return JsonResponse(ret_list, safe=False)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+def all_teams(request):
+    """Get all teams for comparison dropdown"""
+    try:
+        all_teams_list = teams.get_teams()
+        ret_list = []
+        for team in all_teams_list:
+            obj = {"id": team['id'], "full_name": team['full_name']}
+            ret_list.append(obj)
+        return JsonResponse(ret_list, safe=False)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)

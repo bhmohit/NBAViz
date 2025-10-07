@@ -13,6 +13,8 @@ export default function Navbar() {
           <a href="/players">Players</a>
           <a href="/teams">Teams</a>
           <a href="/matches">Matches</a>
+          <a href="/compare/player">Compare Players</a>
+          <a href="/compare/team">Compare Teams</a>
         </ul>
       </div>
       <div>
