@@ -1,3 +1,92 @@
+.list-section {
+    padding: 2rem 1rem;
+}
+
+.error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    padding: 2rem;
+}
+
+.error-container h1 {
+    font-size: 1.75rem;
+    color: #e53e3e;
+    text-align: center;
+    background: white;
+    padding: 2rem 3rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
 .title {
     text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 2rem 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Override Material-UI Card styles for modern look */
+.MuiCard-root {
+    border-radius: 20px !important;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    background: white !important;
+}
+
+.MuiCard-root:hover {
+    transform: translateY(-12px) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
+}
+
+.MuiCardActionArea-root {
+    transition: background 0.3s ease !important;
+}
+
+.MuiCardActionArea-root:hover {
+    background: linear-gradient(to bottom, transparent, rgba(102, 126, 234, 0.05)) !important;
+}
+
+.MuiCardMedia-root {
+    overflow: hidden;
+}
+
+.MuiCardMedia-root img {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.MuiCard-root:hover .MuiCardMedia-root img {
+    transform: scale(1.1);
+}
+
+.MuiCardContent-root {
+    background: linear-gradient(to bottom, transparent, rgba(102, 126, 234, 0.03));
+}
+
+.MuiTypography-h6 {
+    font-weight: 700 !important;
+    color: #2d3748 !important;
+    font-family: "Inter", "Roboto", sans-serif !important;
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .list-section {
+        padding: 1rem 0.5rem;
+    }
+
+    .error-container h1 {
+        font-size: 1.25rem;
+        padding: 1.5rem 2rem;
+    }
 }

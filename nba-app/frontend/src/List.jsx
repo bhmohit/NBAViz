@@ -41,7 +41,11 @@ export default function List(props) {
 
   if (!fetchedData) {
     if (throwError) {
-      return <h1>{props.noDataMessage}</h1>;
+      return (
+        <div className="error-container">
+          <h1>{props.noDataMessage}</h1>
+        </div>
+      );
     }
     return (
       <div>
@@ -57,7 +61,7 @@ export default function List(props) {
   }
 
   return (
-    <div>
+    <div className="list-section">
       {fetchedData && (
         <div>
           <h2 className="title"> {title} </h2>
@@ -77,6 +81,7 @@ export default function List(props) {
                               (e.target.src =
                                 "https://global.discourse-cdn.com/turtlehead/original/2X/c/c830d1dee245de3c851f0f88b6c57c83c69f3ace.png")
                             }
+                            alt={value["full_name"]}
                           />
                         </CardMedia>
                         <CardContent>

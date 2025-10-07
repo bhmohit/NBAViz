@@ -7,6 +7,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Navbar from "./Navbar";
 import LiveList from "./LiveList";
+import "./App.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const HeaderLayout = () => (

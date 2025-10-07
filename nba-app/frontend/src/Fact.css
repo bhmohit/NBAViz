@@ -2,6 +2,49 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 60vh;
     flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+    animation: fadeIn 0.8s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.mainContainer > p {
+    font-size: 1.25rem;
+    font-family: "Inter", "Roboto", sans-serif;
+    color: #4a5568;
+    text-align: center;
+    max-width: 600px;
+    line-height: 1.8;
+    font-weight: 500;
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the MUI CircularProgress */
+.mainContainer .MuiCircularProgress-root {
+    color: #667eea !important;
+}
+
+@media (max-width: 768px) {
+    .mainContainer {
+        min-height: 50vh;
+        padding: 1rem;
+    }
+
+    .mainContainer > p {
+        font-size: 1rem;
+        padding: 1.5rem;
+    }
 }

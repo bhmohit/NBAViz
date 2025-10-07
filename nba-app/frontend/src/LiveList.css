@@ -1,4 +1,41 @@
 .recent {
-    padding-top: 20px;
+    padding-top: 2rem;
     text-align: center;
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 2rem;
+}
+
+.error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 30vh;
+    padding: 2rem;
+}
+
+.error-container h1 {
+    font-size: 1.5rem;
+    color: #718096;
+    text-align: center;
+    background: white;
+    padding: 2rem 3rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .recent {
+        font-size: 1.5rem;
+        padding-top: 1.5rem;
+    }
+
+    .error-container h1 {
+        font-size: 1.25rem;
+        padding: 1.5rem 2rem;
+    }
 }

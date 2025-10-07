@@ -25,7 +25,11 @@ export default function LiveList() {
   }, []);
 
   if (error) {
-    return <h1 style={{ textAlign: 'center' }}>{error}</h1>;
+    return (
+      <div className="error-container">
+        <h1>{error}</h1>
+      </div>
+    );
   }
 
   if (!fetchedData) {
