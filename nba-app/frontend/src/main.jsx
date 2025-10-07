@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import Data from "./Data";
 import List from "./List";
 import Home from "./Home";
+import Compare from "./Compare";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Navbar from "./Navbar";
@@ -64,7 +65,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-
+      {
+        path: "/compare/:type",
+        element: <Compare />,
+      },
       {
         path: "/search/:playerName",
         element: (

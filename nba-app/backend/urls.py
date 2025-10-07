@@ -24,4 +24,7 @@ urlpatterns = [
     path("api/data/<str:type>/<int:id>/", views.data_list),
     path("api/search/<str:name>/", views.search_page_data),
     path("api/live/", views.live_data),
+    path("api/compare/<str:type>/<int:id1>/<int:id2>/", views.compare_data),
+    path("api/all-players/", views.all_players),
+    path("api/all-teams/", views.all_teams),
 ]
