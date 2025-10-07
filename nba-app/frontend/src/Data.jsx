@@ -100,7 +100,11 @@ export default function Data(props) {
     };
   } else {
     if (throwError) {
-      return <h1>Insufficient data has been recorded on this player</h1>;
+      return (
+        <div className="error-container">
+          <h1>Insufficient data has been recorded on this player</h1>
+        </div>
+      );
     }
     return (
       <div>

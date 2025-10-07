@@ -1,9 +1,14 @@
 import List from "./List";
 import LiveList from "./LiveList";
+import "./Home.css";
 
 export default function Home() {
   return (
-    <div>
+    <div className="home-container">
+      <section className="hero-section">
+        <h1 className="hero-title">Welcome to NBAViz</h1>
+        <p className="hero-subtitle">Explore NBA statistics, live games, and player insights</p>
+      </section>
       <List
         url={`home/player`}
         type={"player"}

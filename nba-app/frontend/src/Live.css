@@ -1,48 +1,33 @@
-.middle {
+.parent {
     display: flex;
-    align-items: center;
     justify-content: center;
-    flex-direction: column;
-    height: 100%;
+    padding-bottom: 2rem;
+    animation: slideUp 0.5s ease-out;
 }
 
-.data {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-}
-
-.status {
-    margin-bottom: -10px;
-    font-size: 12px;
-    font-family: "Roboto";
-    text-transform: uppercase;
-    color: black;
-}
-
-.periods {
-    margin-top: 15px;
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    font-size: 12px;
-    font-family: "Roboto";
-}
-
-.image > img {
-    width: 110px;
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .main {
     max-width: 50%;
-    background-color: rgba(203, 203, 203, 0.629);
-    border-radius: 20px;
+    background: white;
+    border-radius: 30px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
 }
 
-.parent {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 20px;
+.main:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
 }
 
 .image {
@@ -50,35 +35,135 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 2rem 1rem;
+    transition: transform 0.3s ease;
+}
+
+.main:hover .image {
+    transform: scale(1.05);
+}
+
+.image > img {
+    width: 110px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+    transition: filter 0.3s ease;
+}
+
+.main:hover .image > img {
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
 }
 
 .image > div {
-    font-size: 12px;
-    font-family: "Roboto";
-    margin-bottom: 10px;
+    font-size: 0.9rem;
+    font-family: "Inter", "Roboto", sans-serif;
+    margin-top: 0.75rem;
+    color: #4a5568;
+    font-weight: 600;
+}
+
+.middle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+}
+
+.status {
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    font-family: "Inter", "Roboto", sans-serif;
+    text-transform: uppercase;
+    color: #667eea;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 0.5rem 1rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.data {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2rem;
 }
 
 .score {
-    font-size: 25px;
-    font-weight: bold;
+    font-size: 3rem;
+    font-weight: 900;
     font-family: "Sofia Sans", sans-serif;
-    color: black;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.periods {
+    margin-top: 1.5rem;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    font-size: 0.85rem;
+    font-family: "Inter", "Roboto", sans-serif;
+    gap: 0.5rem;
+}
+
+.periods > span {
+    background: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+}
+
+.periods > span:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.periods > span > b {
+    color: #667eea;
+    margin-right: 0.25rem;
 }
 
 @media only screen and (max-width: 768px) {
     .main {
-        max-width: 100%;
+        max-width: 95%;
+        margin: 0 1rem;
+    }
+
+    .image {
+        padding: 1rem 0.5rem;
     }
 
     .image > img {
-        width: max-content;
+        width: 80px;
     }
 
     .score {
-        font-size: 20px;
+        font-size: 2rem;
     }
 
     .periods {
-        font-size: 10px;
+        font-size: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .periods > span {
+        padding: 0.4rem 0.6rem;
+    }
+
+    .middle {
+        padding: 1rem 0.5rem;
+    }
+
+    .data {
+        gap: 1rem;
     }
 }

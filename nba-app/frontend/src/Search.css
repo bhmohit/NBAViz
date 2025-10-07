@@ -1,15 +1,73 @@
-.form
-{
-    display: block;
-    text-align: center;
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-form
-{
-    display: inline-block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    font-family: "Roboto";
+
+form {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-family: "Inter", "Roboto", sans-serif;
+}
+
+#input {
+    padding: 0.75rem 1.25rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.3s ease;
+    min-width: 250px;
+    backdrop-filter: blur(10px);
+}
+
+#input::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+#input:focus {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+button[type="submit"] {
+    padding: 0.75rem 1.75rem;
+    background: white;
+    color: #667eea;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    background: #f0f0f0;
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    form {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #input {
+        min-width: 200px;
+        width: 100%;
+    }
 }
