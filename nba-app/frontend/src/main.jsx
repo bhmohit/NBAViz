@@ -16,6 +16,12 @@ const HeaderLayout = () => (
     <header>
       <Navbar />
     </header>
+    <div className="global-alert">
+      <Alert severity="warning" variant="filled">
+        I am travelling right now and my rasberry pi cannot fetch data from the api (I
+        travel with my pi). Dated: 24th Dec 2025
+      </Alert>
+    </div>
     <Outlet />
   </>
 );
