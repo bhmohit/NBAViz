@@ -1,7 +1,7 @@
 FROM node:21-alpine3.18 as build
 WORKDIR /frontend
 COPY ./frontend ./
-ENV REACT_APP_BACKEND=http://localhost/api/
+ENV REACT_APP_BACKEND=/api/
 RUN npm install && npm run build
 
 FROM nginx:alpine
