@@ -1,22 +1,56 @@
-import requests
-import pickle
-import base64
-import os
-from dotenv import load_dotenv
+from nba_api.stats.endpoints import playercareerstats, teamyearbyyearstats
+from nba_api.live.nba.endpoints import scoreboard
+from nba_api.stats.static import players, teams
 from .predict import Predict
 
 def get_live_data():
-    body = {"type": "live"}
-    response = requests.post(os.getenv('DATA_URL'), json=body)
-    if response.status_code >= 500:
-        raise Exception
-    return pickle.loads(base64.b64decode(response.content))
+    sb = scoreboard.ScoreBoard().games.get_dict()
+    live_games = []
+    is_live = False
+    for game in sb:
+        live_games.append({
+            "gameID": game["gameId"],
+            "gameStatusText": game["gameStatusText"],
+            "period": game["period"],
+            "homeTeam": {
+                "teamID": game["homeTeam"]["teamId"],
+                "teamName": game["homeTeam"]["teamName"],
+                "wins": game["homeTeam"]["wins"],
+                "losses": game["homeTeam"]["losses"],
+                "score": game["homeTeam"]["score"],
+            },
+            "awayTeam": {
+                "teamID": game["awayTeam"]["teamId"],
+                "teamName": game["awayTeam"]["teamName"],
+                "wins": game["awayTeam"]["wins"],
+                "losses": game["awayTeam"]["losses"],
+                "score": game["awayTeam"]["score"],
+            },
+        })
+        period = []
+        for i in range(0, game["period"]):
+            period.append(
+                "{}-{}".format(game["homeTeam"]["periods"][i]["score"], game["awayTeam"]["periods"][i]["score"])
+            )
+        live_games[-1]["periods"] = period
+        if live_games[-1]["period"] != "":
+            is_live = True
+    live_games[-1] = is_live
+    return live_games
 
 
 def get_data(type, id):
-    body = {"type": type, "id": id}
-    response = requests.post(os.getenv('DATA_URL'), json=body)
-    settings = pickle.loads(base64.b64decode(response.content))
+    settings = {}
+    if type == "team":
+        data = teamyearbyyearstats.TeamYearByYearStats(team_id=id)
+        settings["data"] = data.get_data_frames()[0]
+        settings["name"] = teams.find_team_name_by_id(id)
+        settings["final_stats"] = data.get_normalized_dict()["TeamStats"]
+    elif type == "player":
+        data = playercareerstats.PlayerCareerStats(player_id=id)
+        settings["data"] = data.get_data_frames()[0]
+        settings["name"] = players.find_player_by_id(id)
+        settings["final_stats"] = data.get_normalized_dict()["SeasonTotalsRegularSeason"]
     
     if type == "team":
         settings["size"] = len(settings["final_stats"])-35
